@@ -11,6 +11,7 @@
     - [Запуск](#запуск)
     - [Эндпоинты](#эндпоинты)
     - [Выполненные требования к системе](#выполненные-требования-к-системе)
+    - [Контакты](#контакты)
 
 
 ## Описание
@@ -78,3 +79,10 @@ docker-compose up
   - сумма
   - медиана
 - [x] Сервис и его окружение разворачивается средствами docker + docker-compose
+
+
+## Контакты
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/Stole_your_jet)<br>
+gleb_somov@mail.ru
+
+
