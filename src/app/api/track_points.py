@@ -3,8 +3,8 @@ from fastapi import APIRouter, HTTPException
 from app.api import crud
 from app.api.models import TrackPointSchema, TrackPointDB, TrackPayload, DeviceStats
 
-router = APIRouter()
 
+router = APIRouter()
 
 @router.post("/create_track_point", response_model=TrackPointDB, status_code=201)
 async def create_track_point(payload: TrackPointSchema):
