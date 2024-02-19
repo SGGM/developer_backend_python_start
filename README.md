@@ -84,7 +84,6 @@ localhost:8002/api/v1/get_device_stats_in_range
 
 
 ## Контакты
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/Stole_your_jet)<br>
-gleb_somov@mail.ru
-
-
+Сомов Глеб<br>
+1. Mail.ru - gleb_somov@mail.ru<br>
+2. Telegram - [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/Stole_your_jet)<br>
