@@ -1,5 +1,7 @@
 # Тестовое задание python-разработчик it-start
 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fastapi?style=plastic)
+
 
 ## Содержание
 - [Тестовое задание](#тестовое-задание-python-разработчик-it-start)
