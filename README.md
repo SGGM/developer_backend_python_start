@@ -34,8 +34,7 @@ git clone github.com/SGGM/developer_backend_python_start.git
 ## Запуск
 
 ```bash
-docker-compose build
-docker-compose up
+docker-compose up --build -d
 ```
 
 
