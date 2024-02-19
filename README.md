@@ -21,7 +21,6 @@
 а также за выбранный промежуток времени.<br>
 В качестве базы данных использована PostgreSQL.<br>
 Версия Python: 3.11.4.
-Порт: 8002
 
 
 
@@ -44,15 +43,15 @@ docker-compose up
 
 Для сбора данных с устройства:
 ```bash
-/api/v1/create_track_point
+localhost:8002/api/v1/create_track_point
 ```
 Для получения статистики за все время:
 ```bash
-/api/v1/get_device_stats/{device_id}
+localhost:8002/api/v1/get_device_stats/{device_id}
 ```
 Для получения статистики за определнный период:
 ```bash
-/api/v1/get_device_stats_in_range
+localhost:8002/api/v1/get_device_stats_in_range
 ```
 Более подробная документация:
 ```bash
