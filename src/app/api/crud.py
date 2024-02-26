@@ -1,6 +1,18 @@
 from datetime import datetime
 
 from app.api.models import TrackPointSchema
+from app.api.sql_queries import (
+    make_query_max,
+    make_query_min,
+    make_query_sum,
+    make_query_count,
+    make_query_median,
+    make_query_max_in_period,
+    make_query_min_in_period,
+    make_query_sum_in_period,
+    make_query_count_in_period,
+    make_query_median_in_period
+)
 from app.db import track_points, database
 
 
@@ -11,111 +23,47 @@ async def post(payload: TrackPointSchema):
 async def get_device_stats(device_id: int):
     async with database:
         # x queries
-        query_x_max = """
-            SELECT MAX(x)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_x_max = make_query_max("x")
         res_x_max = await database.execute(query=query_x_max, values={"device_id": device_id})
 
-        query_x_min = """
-            SELECT MIN(x)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_x_min = make_query_min("x")
         res_x_min = await database.execute(query=query_x_min, values={"device_id": device_id})
 
-        query_x_count = """
-            SELECT COUNT(x)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_x_count = make_query_count("x")
         res_count = await database.execute(query=query_x_count, values={"device_id": device_id})
 
-        query_x_sum = """
-            SELECT SUM(x)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_x_sum = make_query_sum("x")
         res_x_sum = await database.execute(query=query_x_sum, values={"device_id": device_id})
 
-        query_x_median = """
-            SELECT
-                PERCENTILE_CONT( 0.5 )
-                    WITHIN GROUP (
-                        ORDER BY x
-                    ) AS median
-            FROM track_points
-            WHERE track_points.device_id = :device_id
-        """
+        query_x_median = make_query_median("x")
         res_x_median = await database.execute(query=query_x_median, values={"device_id": device_id})
 
 
         # y queries
-        query_y_max = """
-            SELECT MAX(y)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_y_max = make_query_max("y")
         res_y_max = await database.execute(query=query_y_max, values={"device_id": device_id})
 
-        query_y_min = """
-            SELECT MIN(y)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_y_min = make_query_min("y")
         res_y_min = await database.execute(query=query_y_min, values={"device_id": device_id})
 
-        query_y_sum = """
-            SELECT SUM(y)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_y_sum = make_query_sum("y")
         res_y_sum = await database.execute(query=query_y_sum, values={"device_id": device_id})
 
-        query_y_median = """
-            SELECT
-                PERCENTILE_CONT( 0.5 )
-                    WITHIN GROUP (
-                        ORDER BY y
-                    ) AS median
-            FROM track_points
-            WHERE track_points.device_id = :device_id
-        """
+        query_y_median = make_query_median("y")
         res_y_median = await database.execute(query=query_y_median, values={"device_id": device_id})
 
 
         # z queries
-        query_z_max = """
-            SELECT MAX(z)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_z_max = make_query_max("z")
         res_z_max = await database.execute(query=query_z_max, values={"device_id": device_id})
 
-        query_z_min = """
-            SELECT MIN(z)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_z_min = make_query_min("z")
         res_z_min = await database.execute(query=query_z_min, values={"device_id": device_id})
 
-        query_z_sum = """
-            SELECT SUM(z)
-                FROM track_points
-                WHERE track_points.device_id = :device_id
-        """
+        query_z_sum = make_query_sum("z")
         res_z_sum = await database.execute(query=query_z_sum, values={"device_id": device_id})
 
-        query_z_median = """
-            SELECT
-                PERCENTILE_CONT( 0.5 )
-                    WITHIN GROUP (
-                        ORDER BY z
-                    ) AS median
-            FROM track_points
-            WHERE track_points.device_id = :device_id
-        """
+        query_z_median = make_query_median("z")
         res_z_median = await database.execute(query=query_z_median, values={"device_id": device_id})
 
         return {
@@ -140,14 +88,7 @@ async def get_device_stats(device_id: int):
 async def get_device_stats_in_range(device_id: int, time_start: datetime, time_end: datetime):
     async with database:
         # x queries
-        query_x_max = """
-            SELECT MAX(x)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_x_max = make_query_max_in_period("x")
         res_x_max = await database.execute(
             query=query_x_max, values={
                 "device_id": device_id,
@@ -155,14 +96,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_x_min = """
-            SELECT MIN(x)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_x_min = make_query_min_in_period("x")
         res_x_min = await database.execute(
             query=query_x_min, values={
                 "device_id": device_id,
@@ -170,14 +104,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_count = """
-            SELECT COUNT(x)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_count = make_query_count_in_period("x")
         res_count = await database.execute(
             query=query_count, values={
                 "device_id": device_id,
@@ -185,14 +112,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_x_sum = """
-            SELECT SUM(x)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_x_sum = make_query_sum_in_period("x")
         res_x_sum = await database.execute(
             query=query_x_sum, values={
                 "device_id": device_id,
@@ -200,17 +120,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_x_median = """
-            SELECT
-                PERCENTILE_CONT( 0.5 )
-                    WITHIN GROUP (
-                        ORDER BY x
-                    ) AS median
-            FROM track_points
-                WHERE track_points.device_id = :device_id
-                    AND track_points.timestamp >= :time_start
-                    AND track_points.timestamp <= :time_end
-        """
+        query_x_median = make_query_median_in_period("x")
         res_x_median = await database.execute(
             query=query_x_median, values={
                 "device_id": device_id,
@@ -220,14 +130,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
 
 
         # y queries
-        query_y_max = """
-            SELECT MAX(y)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_y_max = make_query_max_in_period("y")
         res_y_max = await database.execute(
             query=query_y_max, values={
                 "device_id": device_id,
@@ -235,14 +138,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_y_min = """
-            SELECT MIN(y)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_y_min = make_query_min_in_period("y")
         res_y_min = await database.execute(
             query=query_y_min, values={
                 "device_id": device_id,
@@ -250,14 +146,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_y_sum = """
-            SELECT SUM(y)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_y_sum = make_query_sum_in_period("y")
         res_y_sum = await database.execute(
             query=query_y_sum, values={
                 "device_id": device_id,
@@ -265,17 +154,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_y_median = """
-            SELECT
-                PERCENTILE_CONT( 0.5 )
-                    WITHIN GROUP (
-                        ORDER BY y
-                    ) AS median
-            FROM track_points
-            WHERE track_points.device_id = :device_id
-                AND track_points.timestamp >= :time_start
-                AND track_points.timestamp <= :time_end
-        """
+        query_y_median = make_query_median_in_period("y")
         res_y_median = await database.execute(
             query=query_y_median, values={
                 "device_id": device_id,
@@ -285,14 +164,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
 
 
         # z queries
-        query_z_max = """
-            SELECT MAX(z)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_z_max = make_query_max_in_period("z")
         res_z_max = await database.execute(
             query=query_z_max, values={
                 "device_id": device_id,
@@ -300,14 +172,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_z_min = """
-            SELECT MIN(z)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_z_min = make_query_min_in_period("z")
         res_z_min = await database.execute(
             query=query_z_min, values={
                 "device_id": device_id,
@@ -315,14 +180,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_z_sum = """
-            SELECT SUM(z)
-                FROM track_points
-                    WHERE track_points.device_id = :device_id
-                        AND track_points.timestamp >= :time_start
-                        AND track_points.timestamp <= :time_end
-            
-        """
+        query_z_sum = make_query_sum_in_period("z")
         res_z_sum = await database.execute(
             query=query_z_sum, values={
                 "device_id": device_id,
@@ -330,17 +188,7 @@ async def get_device_stats_in_range(device_id: int, time_start: datetime, time_e
                 "time_end": time_end
                 })
 
-        query_z_median = """
-            SELECT
-                PERCENTILE_CONT( 0.5 )
-                    WITHIN GROUP (
-                        ORDER BY z
-                    ) AS median
-            FROM track_points
-            WHERE track_points.device_id = :device_id
-                AND track_points.timestamp >= :time_start
-                AND track_points.timestamp <= :time_end
-        """
+        query_z_median = make_query_median_in_period("z")
         res_z_median = await database.execute(
             query=query_z_median, values={
                 "device_id": device_id,
